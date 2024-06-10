@@ -1,39 +1,58 @@
 const http = require('http');
 const fs = require('fs');
+const path = require('path');
 
+const route = require('./routes');
+
+global.DEBUG = true;
 const server = http.createServer((request, response) => {
-    let filePath;
-
+    if (DEBUG) 
+    console.log('Request URL:', request.url);
+    let path = './views/';
     switch (request.url) {
+        case '/':
+            console.log('User requested home page');
+            path += 'index.html';
+            if (DEBUG) console.log('Path:', path);
+            route.indexPage(path, response);
+            break;
         case '/about':
             console.log('User requested about page');
-            response.end('About page'); 
+            path += 'about.html';
+            if (DEBUG) console.log('Path:', path);
+            route.aboutPage(path, response); 
             break;
         case '/contact':
             console.log('User requested contact page');
-            response.end('Contact page');
+            path += 'contact.html';
+            if (DEBUG) console.log('Path:', path);
+            route.contactPage(path, response);
             break;
         case '/products':
             console.log('User requested products page');
-            response.end('Products page');
+            path += 'products.html';
+            if (DEBUG) console.log('Path:', path);
+            route.productsPage(path, response);
             break;
         case '/subscribe':
             console.log('User requested subscribe page');
-            response.end('Subscribe page');
+            path += 'subscribe.html';
+            if (DEBUG) console.log('Path:', path);
+            route.subscribePage(path, response);
             break;
         case '/social':
             console.log('User requested social page');
-            response.end('Social page');
-            break;
-        case '/':
-            console.log('User requested home page');
-            response.end('Home page');
+            path += 'social.html';
+            if (DEBUG) console.log('Path:', path);
+            route.socialPage(path, response);
             break;
         default:
-            console.log('User requested home page');
-            response.end('Home page');
+            if (DEBUG) console.log('Error 404 - User requested an invalid page');
+            response.end('404 Page Not Found');
     }
 });
+
+
 
 const port = 3000;
 server.listen(port, () => {
