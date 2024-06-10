@@ -49,6 +49,8 @@ const server = http.createServer((request, response) => {
         default:
             if (DEBUG) console.log('Error 404 - User requested an invalid page');
             response.end('404 Page Not Found');
+            response.writeHead(404, { 'Content-Type': 'text/plain' });
+            break;
     }
 });
 
